@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!--    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" rel="stylesheet"/>-->
+<!--    JQuery-->
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+
+    <title>Eduard Sharipov PreProject Page</title>
+</head>
+<body class="bg-light text-dark">
+<!--Header line-->
+<div class="container w-100 text-white bg-dark py-1">
+    <div class="row">
+        <div class="col-10 pt-2 ps-4">
+            <p id="headerPanelText"><strong th:inline="text">[[${#httpServletRequest.remoteUser}]]</strong></p>
+        </div>
+        <div class="col-2 ms-auto mt-2">
+            <form th:action="@{/logout}" method="post">
+                <button class="w-100 btn btn-block btn-dark text-nowrap btn-sm margin-2" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container w-100">
+    <div class="row">
+        <!--        Left panel-->
+        <div class="col-2 bg-white px-0 mx-0">
+            <div class="container bg-white px-0 mx-0">
+                <div class="list-group mt-3 stretch m-0 p-0">
+                    <button class="btn btn-primary btn-sm" type="button" id="openAdminTable" onclick="startAdminPage()"
+                            style="text-align:left; padding-left:6px"> Admin </button>
+                    <button class="btn btn-primary btn-sm" type="button" id="openUserPagePrim" onclick="startUserPage()"
+                            style="text-align:left; padding-left:6px; display:none"> User </button>
+                    <button class="btn btn-link btn-sm" type="button" id="openUserPageLink" onclick="startUserPage()"
+                            style="text-align:left; padding-left:6px; text-decoration: none"> User </button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div id="mainPanel">
+                <h2 id="mainPanelHeader" style="padding-left:15px; padding-top: 15px; padding-bottom:10px">Main Panel</h2>
+            </div>
+            <div class="container-fluid" id="mainPanelData">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalWindow" tabindex="-1" aria-labelledby="modalWindow" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalWindowTitle"> Delete user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form action="#" name="modalForm" id="modalForm" >
+                        <div>
+                            <p class="text-center"><strong>ID</strong></p>
+                            <input readonly class="form-control" type="text" field="" id="id" placeholder="">
+                        </div>
+                        <div>
+                            <p class="text-center"><strong>First name</strong></p>
+                            <input class="form-control" type="text" field="" id="name" placeholder="">
+                        </div>
+                        <div>
+                            <p class="text-center"><strong>Last name</strong></p>
+                            <input class="form-control" type="text" field="" id="lastname" placeholder="">
+                        </div>
+                        <div>
+                            <p class="text-center"><strong>Age</strong></p>
+                            <input class="form-control" type="number" field="" id="age" placeholder="">
+                        </div>
+                        <div>
+                            <p class="text-center"><strong>Email</strong></p>
+                            <input class="form-control" type="text" field="" id="username" placeholder="">
+                        </div>
+                        <div id="passwordDiv">
+                            <p class="text-center"><strong>Password</strong></p>
+                            <input class="form-control" type="text" field="" id="password" placeholder="">
+                        </div>
+                        <div>
+                            <p class="text-center"><strong>Role</strong></p>
+                            <select multiple class="form-control w-100 h-20px" field="" id="roles">
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="USER">USER</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="modalWindowClose">Close</button>
+                <button class="btn btn-danger btn-sm" role="button" id="modalWindowButton" onclick="">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="../templates/main.js"> </script>
+<!--Bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
