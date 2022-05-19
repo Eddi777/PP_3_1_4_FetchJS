@@ -1,9 +1,16 @@
 package ru.kata.spring.boot_security.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import ru.kata.spring.boot_security.demo.model.User;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.List;
 
-    User findByUsername(String username);
+public interface UserRepository {
+
+    List<User> getUsersList();
+    void deleteById(long id);
+    void saveUser(User user);
+    void updateUser(User user);
+    User getUserById(long id);
+    User getUserByUsername(String username);
+
 }

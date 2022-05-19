@@ -3,18 +3,17 @@ package ru.kata.spring.boot_security.demo.model;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
-@ToString
 @Table(name="users", schema="test")
 public class User implements UserDetails {
 
@@ -25,25 +24,35 @@ public class User implements UserDetails {
     private String name;
     private String lastname;
     private byte age;
-
     private String username;
     private String password;
     private boolean active;
 
-    @ElementCollection (targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name="user_roles", joinColumns = @JoinColumn(name="user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+//    @ElementCollection (targetClass = Role.class, fetch = FetchType.EAGER)
+//    @Enumerated(EnumType.STRING)
+    @OneToMany (cascade = CascadeType.ALL)
+    @JoinTable (
+            name="role",
+            joinColumns = @JoinColumn(name="user_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public String getRolesAsString () {
+        String res = "";
+        for (Role role: roles) {
+            res += (res.length() == 0) ? role.getRole(): ", " + role.getRole();
+        }
+        return res;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
-
-    public boolean isAdmin(){
-        return roles.contains(Role.ADMIN);
-    }
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -65,4 +74,21 @@ public class User implements UserDetails {
         return isActive();
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", age=" + age +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", roles=" + roles +
+                '}';
+    }
+
+    public boolean isAdmin() {
+        return roles.contains("ADMIN");
+    }
 }

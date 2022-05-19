@@ -39,10 +39,10 @@ public class apiController {
     @PostMapping("/userAdd")
     public String userAdd(@RequestBody User user) {
         System.out.println("User was added -" + user);
-        User userFromBD = userService.userByUsername(user.getUsername());
+        User userFromBD = userService.getUserByUsername(user.getUsername());
         if (userFromBD == null) {
             user.setActive(true);
-            userService.save(user);
+            userService.saveUser(user);
             return "OK";
         }
         return "User was available";
@@ -58,6 +58,6 @@ public class apiController {
     public void userEdit(@RequestBody User user) {
         System.out.println("Edit user -" + user);
         user.setActive(true);
-        userService.save(user);
+        userService.updateUser(user);
     }
 }
