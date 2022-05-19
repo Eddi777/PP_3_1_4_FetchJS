@@ -13,7 +13,6 @@ import java.util.List;
 public class apiController {
 
     final UserService userService;
-
     public apiController(UserService userService) {
         this.userService = userService;
     }
