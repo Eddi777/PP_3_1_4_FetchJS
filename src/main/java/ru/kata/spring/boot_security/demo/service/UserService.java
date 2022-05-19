@@ -18,4 +18,5 @@ public interface UserService extends UserDetailsService {
     void deleteById(Long id);
     @Override
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    void clearRoles(User user);
 }

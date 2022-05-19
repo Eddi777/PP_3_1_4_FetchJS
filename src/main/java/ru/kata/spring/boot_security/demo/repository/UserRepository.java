@@ -12,5 +12,5 @@ public interface UserRepository {
     void updateUser(User user);
     User getUserById(long id);
     User getUserByUsername(String username);
-
+    void clearRoles(User user);
 }

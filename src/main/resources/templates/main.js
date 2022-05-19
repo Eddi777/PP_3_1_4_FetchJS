@@ -6,6 +6,9 @@ const modalForm = document.querySelector("#modalForm");
 const modalWindowTitle = document.querySelector("#modalWindowTitle");
 const modalWindowButton = document.querySelector("#modalWindowButton");
 const modalWindowCloseButton = document.querySelector("#modalWindowClose");
+let principalIsAdmin = false;
+let principalIsUser = false;
+
 
 // Global constants
 const serverLocation = "http://localhost:8080";
@@ -24,13 +27,13 @@ const state = {
     principal: new User(),
     usersList: [],
 };
-
+//Main user requst
 window.onload = async function () {
     await getDataRequest('mainUser')
         .then((user) => state.principal = user);
     headerPanelUpdate(state.principal);
     leftPanelUpdate(state.principal.roles);
-    (state.principal.roles.includes("ADMIN")) ? await startAdminPage() : startUserPage();
+    (principalIsAdmin) ? await startAdminPage() : startUserPage();
 }
 
 async function startAdminPage() {
@@ -76,8 +79,13 @@ function createPostRequest(extension, user) {
 function getRolesAsString(roles) {
     let text = "";
     for (let role of roles) {
-        text += role;
-        text += (role != roles[roles.length - 1]) ? ", ":"";
+        if (role.role === "ADMIN") {
+            principalIsAdmin = true;
+        }
+        if (role.role === "USER") {
+            principalIsUser = true;
+        }
+        text += (role != roles[roles.length - 1]) ? role.role + ", " : role.role;
     }
     return text;
 }
@@ -135,12 +143,12 @@ modalWindowButton.onclick = async function () {
 }
 
 function setUserRolesAttributes(roles, element) {
-    if (roles.includes("ADMIN")) {
+    if (principalIsAdmin) {
         element.options[0].selected= true;
     } else {
         element.options[0].selected= false;
     }
-    if (roles.includes("USER")) {
+    if (principalIsUser) {
         element.options[1].selected= true;
     } else {
         element.options[1].selected= false;
@@ -175,9 +183,11 @@ function headerPanelUpdate(user) {
     let text = getRolesAsString(user.roles)
     headerPanelText.innerHTML = `<strong> ${user.username} </strong> with roles <strong> ${text} </strong>`;
 }
- function leftPanelUpdate(roles) {
-    if (roles.includes("ADMIN")) {
-        if (roles.includes("USER")) {
+
+function leftPanelUpdate(roles) {
+    console.log(roles)
+    if (principalIsAdmin) {
+        if (principalIsUser) {
             document.querySelector("#openAdminTable").style.display="inline-block";
             document.querySelector("#openUserPagePrim").style.display="none";
             document.querySelector("#openUserPageLink").style.display="inline-block";

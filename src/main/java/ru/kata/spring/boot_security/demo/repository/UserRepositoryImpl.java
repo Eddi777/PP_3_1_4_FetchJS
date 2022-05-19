@@ -1,10 +1,13 @@
 package ru.kata.spring.boot_security.demo.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.util.DuplicateFormatFlagsException;
+import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -62,6 +65,11 @@ public class UserRepositoryImpl implements UserRepository{
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public void clearRoles(User user) {
+        user.setRoles(new HashSet<Role>());
+        updateUser(user);
     }
 
 }

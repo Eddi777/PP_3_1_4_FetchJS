@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "roles", schema = "test")
-@ToString
 public class Role implements GrantedAuthority{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,5 +44,10 @@ public class Role implements GrantedAuthority{
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return role;
     }
 }

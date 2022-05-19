@@ -89,6 +89,11 @@ public class User implements UserDetails {
     }
 
     public boolean isAdmin() {
-        return roles.contains("ADMIN");
+        for (Role role:roles){
+            if (role.getAuthority().equals("ADMIN")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -48,4 +48,8 @@ public class UserServiceImpl implements UserService {
         return getUserByUsername(username);
     }
 
+    public void clearRoles(User user){
+        userRepository.clearRoles(user);
+    }
+
 }

@@ -1,8 +1,11 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -24,6 +27,20 @@ public class apiController {
 
     @GetMapping("/mainUser")
     public User getMainUser(@AuthenticationPrincipal User user) {
+        System.out.println("start " + user);
+//        userService.clearRoles(user);
+//        user.addRole(new Role("ADMIN"));
+//        user.addRole(new Role("USER"));
+//        userService.updateUser(user);
+//        System.out.println("corrected user " + user);
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println("Auth " + auth);
+        System.out.println("Principal - " + user +
+                "\nisAdmin " + user.isAdmin() +
+                "\nroles " + user.getRoles() +
+                "\nAuth-s " + user.getAuthorities());
+//        System.out.println(user.getRoles());
+//        System.out.println(user.getAuthorities());
         return user;
     }
 
